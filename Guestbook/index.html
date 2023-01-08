@@ -1,0 +1,282 @@
+<!DOCTYPE html>
+<html lang="en" >
+<head>
+  <meta charset="UTF-8">
+  <title>CodePen - Guestbook 1</title>
+
+<style>
+body {
+  background: #CDDBE2;
+  font-family: "Muli", sans-serif;
+}
+
+.container {
+  width: 60%;
+  margin: 3% auto 10rem auto;
+  overflow: hidden;
+}
+
+p {
+  line-height: 150%;
+}
+
+a {
+  text-decoration: none;
+  color: #CDDBE2;
+  background: #A51C3C;
+  transition: all 0.25s ease;
+}
+a:hover {
+  background: #ED1B51;
+  color: #fff;
+}
+
+h1 {
+  font-family: "Ovo", serif;
+}
+
+.left-block, .right-block {
+  float: left;
+  padding: 1.5em;
+  box-sizing: border-box;
+}
+
+.left-block {
+  width: 70%;
+}
+
+.right-block {
+  width: 30%;
+}
+
+.entry {
+  background: #5EC6C8;
+  padding: 0.5rem 1.5rem;
+  transition: background 0.25s ease;
+}
+.entry:nth-child(even) {
+  background: #3CBEB9;
+}
+
+.entry-info {
+  font-style: italic;
+  font-size: 0.75rem;
+  margin-bottom: 0;
+  padding-bottom: 0;
+}
+.entry-info p {
+  margin-bottom: 0.125rem;
+}
+.entry-info .author {
+  color: #A51C3C;
+  font-weight: bold;
+}
+
+.entry-text p {
+  margin-top: 0;
+}
+
+.guestbook-links {
+  margin: 1rem 0;
+  text-align: center;
+}
+.guestbook-links a {
+  padding: 1rem 4rem;
+  display: inline-block;
+  margin: 0 0.5rem;
+}
+
+.links {
+  margin-top: 2em;
+}
+.links a {
+  text-align: center;
+  display: block;
+  padding: 0.5rem;
+  margin: 0.5rem 0;
+}
+
+.manage-entry {
+  overflow: hidden;
+  height: 100px;
+}
+.manage-entry .entry-left {
+  width: calc(80% - 2em);
+  float: left;
+  position: relative;
+  top: 50%;
+  transform: translateY(-50%);
+  padding-right: 2em;
+}
+.manage-entry .entry-options {
+  box-sizing: border-box;
+  width: 20%;
+  float: left;
+  border-left: solid 2px #CDDBE2;
+  text-align: center;
+  padding: 1em 0;
+  position: relative;
+  top: 50%;
+  transform: translateY(-50%);
+}
+
+.icon {
+  color: #000;
+  font-size: 1.25em;
+  font-weight: bold;
+  display: inline-block;
+  margin: 0 1.5em 0 0;
+}
+
+img.icon {
+  max-height: 0.75em;
+  margin-left: -0.25rem;
+  margin-right: 0;
+}
+
+.checkmark {
+  display: inline-block;
+}
+.checkmark:after {
+  content: "";
+  display: block;
+  width: 7px;
+  height: 14px;
+  border: solid #000;
+  border-width: 0 2px 2px 0;
+  transform: rotate(45deg);
+}
+
+.form-element {
+  width: 90%;
+  display: block;
+  margin: 1em 0;
+  padding: 0.5em;
+  border: none;
+  background: #5EC6C8;
+  color: #000;
+}
+.form-element::-moz-placeholder {
+  color: #2BA395;
+}
+.form-element:-ms-input-placeholder {
+  color: #2BA395;
+}
+.form-element::placeholder {
+  color: #2BA395;
+}
+.form-element:focus {
+  outline-color: #ED1B51;
+}
+.form-element.short {
+  width: 30%;
+}
+
+.form-button {
+  padding: 1rem 4rem;
+  display: inline-block;
+  border: none;
+  margin-right: 0.5rem;
+  color: #CDDBE2;
+  background: #A51C3C;
+  transition: all 0.25s ease;
+}
+.form-button:hover {
+  background: #ED1B51;
+  color: #fff;
+}
+</style>
+</head>
+<body>
+<!-- partial:index.partial.html -->
+<link href="https://fonts.googleapis.com/css?family=Muli|Ovo" rel="stylesheet">
+
+<!-- Homepage -->
+<div class="container">
+    <div class="left-block">
+        <div class="guestbook">
+            <div class="entry">
+                <div class="entry-info">
+                    <p><span class="author">Rachel Ann</span> | <span class="date">Thursday, August 4th, 2016</span> | <span class="time">1:43 PM</span></p>
+                </div>
+                <div class="entry-text">
+                    <p>I’m writing you a note because I think that I should. What do you think of this note? Did I write it well? Let me know. </p>
+                </div>
+            </div>
+            <div class="entry">
+                <div class="entry-info">
+                    <p><span class="author">Dan E.</span> | <span class="date">Thursday, August 4th, 2016</span> | <span class="time">1:48 PM</span></p>
+                </div>
+                <div class="entry-text">
+                    <p>I think you wrote it well. Good job. </p>
+                </div>
+            </div>
+
+            <div class="entry">
+                <div class="entry-info">
+                    <p><span class="author">Matthew V.</span> | <span class="date">Thursday, August 4th, 2016</span> | <span class="time">2:11 PM</span></p>
+                </div>
+                <div class="entry-text">
+                    <p>Sometimes I put my fingers on the keyboard and things just...happen.</p>
+                </div>
+            </div>
+        </div>
+    <h1>Sign The Guestbook</h1>
+        <input id="addname" value="" class="form-element short" type="text" name="name" placeholder="Full Name">
+        <input id="addemail" value="" class="form-element short" type="text" name="email" placeholder="Email Address">
+        <textarea id="addmessage" value="" class="form-element" name="message" rows="5" cols="30" placeholder="Enter Your Message Here"></textarea>
+        <button class="form-button" onclick="addNote()">Add Note</button>
+        <button class="form-button" onclick="clearForm()">Reset Form</button>
+    </div>
+
+    <div class="right-block">
+        <h1>This is my Website</h1>
+        <p> Thanks for checking this out. This is my guestbook. Feel free to sign it so I can see you were here.</p>
+        <div class="links">
+            <a href="#">Login / Logout</a>
+            <a href="#">Manage Guestbook</a>
+            <a href="./myusers">Users</a>
+        </div>
+    </div>
+</div>
+<script>
+ function clearForm(){
+    document.getElementById('addname').value='';
+    document.getElementById('addemail').value='';    
+    document.getElementById('addmessage').value='';
+}  
+async function addNote(){
+    const name = document.getElementById('addname').value; if(name.trim()===""){ alert('must enter name'); return false;}
+    const email= document.getElementById('addemail').value; if(email.trim()===""){ alert('must enter email'); return false;}  
+    const message = document.getElementById('addmessage').value; if(message.trim()===""){ alert('must enter password'); return false;}
+    const date = (Date.now() / 1000);
+    const objUser = {name, email, message ,date}
+
+    const response = await fetch('http://localhost:8000/users', {
+        method: 'POST',
+        headers: {'Content-Type': 'application/json'},
+        body: JSON.stringify(objUser)
+    });
+
+    if(response.status === 200){
+        clearForm();
+        listUsers();
+    }
+};  
+async function listNotes() {  
+const response = await fetch('http://localhost:8000/users');
+const objeto = await response.json();
+const listado = document.getElementById('listado');
+let html = '<div><table><tr><th>id</th><th>UserName</th><th>Email</th><th>Password</th><th>Action</th></tr>';
+objeto.forEach(element => {
+    html += `<tr>
+     <td>${element.id} </td><td>${element.username}</td><td>${element.email}</td><td>${element.password}</td><td><button onclick="getUser('${element.id}')">EDIT</button></td>        
+     </tr>`;
+    });
+html +='</table></div>';
+listado.innerHTML = html;
+};
+listNotes()
+</script>
+</body>
+</html>

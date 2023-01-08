@@ -1,0 +1,205 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">    
+    <title>Abu ziad</title>
+    <style>
+body{
+    margin:20px;
+    display: grid;
+    align-items: center;
+    justify-content:center ;
+    height: 90%;
+    background-color:#c9e5e6;
+    font-family: helvetica, 'Courier New', Courier, monospace;
+}
+
+table {
+  font-family: Arial, Helvetica, sans-serif;
+  border-collapse: collapse;
+  width: 100%;
+}
+table td, table th {
+  border: 1px solid rgb(201, 229, 206);
+  padding: 8px;
+}
+table tr:nth-child(even){background-color: #f0f0e7;}
+table tr:hover {background-color: rgb(173, 224, 154);}
+table th {
+  padding-top: 12px;
+  padding-bottom: 12px;
+  text-align: center;
+  background-color: #6fb7c5;
+  color: white;
+}
+
+
+.firstPage {
+     display: flex;
+}
+
+.dataForm {
+            background-color: #ffffff;
+            border-radius: 10px;
+            padding: 15px;
+            margin-right: 5px;
+}
+
+.addForm {
+            text-align: right;
+            background-color: #00ff5542;
+            border-radius: 10px;
+            padding: 15px;
+}
+.editForm {
+            text-align: right;
+            background-color: skyblue;
+            border-radius: 10px;
+            padding: 15px;
+}
+
+
+    </style>
+</head>
+
+<body>
+
+</div>
+  <div>  
+    <div class="firstPage">
+        <div class="addForm">
+            <h4 style="display: block;text-align: left;">Add users</h4>
+                <div>
+                    <label for="add_name" >User name</label>
+                    <input name="username" id="addusername" value="" />
+                </div>
+                <div>
+                    <label for="add_email">Email</label>
+                    <input name="email" id="addemail" value="" />
+                </div>                
+                <div>
+                    <label for="add_password">Password</label>
+                    <input name="password" id="addpassword" value="" />
+                </div>
+                <button style="margin-right: 90px;margin-top: 5px;" onclick="addUser()">Add user</button>
+        </div>    
+
+        <div class="editForm">
+            <h4 style="display: block;text-align: left;">Edit users</h4>
+            <div>
+                <label for="edit_id">PUT ID</label>
+                <input name="id" id="editid" value="" />
+            
+            </div>
+                 
+                <div>
+                    <label for="add_name" >User name</label>
+                    <input name="username" id="editusername" value="" />
+                </div>
+                <div>
+                    <label for="add_email">Email</label>
+                    <input name="email" id="editemail" value="" />
+                </div>                
+                <div>
+                    <label for="add_password">Password</label>
+                    <input name="password" id="editpassword" value="" />
+                </div>
+                <button style="margin-right: 90px;margin-top: 5px;" onclick="editUser()">edit user</button>
+        </div>
+  
+
+
+    </div>        
+         <div class="dataForm">
+
+          <div id="listado"></div>      
+</div>      
+
+    </div>
+    <hr>
+  </div>  
+  <script>
+ function clearForm(){
+    document.getElementById('addusername').value='';
+    document.getElementById('addemail').value='';    
+    document.getElementById('addpassword').value='';
+}    
+async function addUser(){
+    const username = document.getElementById('addusername').value; if(username.trim()===""){ alert('must enter name'); return false;}
+    const email= document.getElementById('addemail').value; if(email.trim()===""){ alert('must enter email'); return false;}  
+    const password = document.getElementById('addpassword').value; if(password.trim()===""){ alert('must enter password'); return false;}
+    const objUser = {username, email, password}
+
+    const response = await fetch('./users', {
+        method: 'POST',
+        headers: {'Content-Type': 'application/json'},
+        body: JSON.stringify(objUser)
+    });
+
+    if(response.status === 200){
+        clearForm();
+        listUsers();
+    }
+};
+async function editUser(){
+    const username= document.getElementById('editusername').value; 
+    const email= document.getElementById('editemail').value; 
+    const id = document.getElementById('editid').value;
+    const password = document.getElementById('editpassword').value; 
+    const objUser1 = {id,username, email, password}
+    console.log(objUser1);
+
+    const response = await fetch('./users', {
+        method: 'PUT',
+        headers: {'Content-Type': 'application/json'},
+        body: JSON.stringify(objUser1)
+    });
+
+    if(response.status === 200){
+        clearForm();
+        listUsers();
+    }
+};
+async function deleteUser(iduser){
+    //const iduser = document.getElementById('delitem').value;
+    const response = await fetch('./user/'+iduser, {
+        method: 'DELETE',
+        headers: {'Content-Type': 'application/json'},
+    });
+
+    if(response.status === 200){
+      listUsers();
+    }
+}  
+async function listUsers() {
+    const response = await fetch('./users');
+    const objeto = await response.json();
+    const listado = document.getElementById('listado');
+    let html = '<div><table><tr><th>id</th><th>UserName</th><th>Email</th><th>Password</th><th>EDIT</th><th>DELETE</th></tr>';
+    objeto.forEach(element => {
+        html += `<tr>
+         <td>${element.id} </td><td>${element.username}</td><td>${element.email}</td><td>${element.password}</td><td><button onclick="getUser('${element.id}')">EDIT</button></td><td><button onclick="deleteUser('${element.id}')">DELETE</button></td>        
+         </tr>`;
+        });
+    html +='</table></div>';
+    listado.innerHTML = html;
+};
+async function getUser(uid) {
+    const response = await fetch('./user/'+uid);
+    const objeto = await response.json();
+    console.log(objeto);
+    document.getElementById('editid').value = objeto.id;
+    document.getElementById('editusername').value = objeto.username;
+    document.getElementById('editemail').value = objeto.email;
+    document.getElementById('editpassword').value = objeto.password;
+
+
+
+}
+listUsers()      
+</script>
+</body>
+</html>
